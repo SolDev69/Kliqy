@@ -38,4 +38,5 @@ public:
 	void render(Gdiplus::Graphics& g, int gc);
 	std::vector<Obstacle*>& getObstacles();
 	void resetLocalTime();
+	void setFrequency(int a);
 };

@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="MyTriangle.cpp" />
     <ClCompile Include="Obstacle.cpp" />
@@ -144,6 +145,9 @@
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MyTriangle.h"
 #include "Constants.h"
+#include "Image.h"
 #include <string>
 #include <assert.h>
 #include <time.h>
@@ -55,14 +56,17 @@ void loadBackgroundImage(string fileName)
 	return;
 }
 
+const unsigned int g_width = IMAGE_WIDTH;
+const unsigned int g_height = IMAGE_HEIGHT;
+
 void drawImages(HDC hdc, int g_elapsed)
 {
 	if (g_bitmap)
 	{
 		Graphics graphics(hdc);
-		Bitmap bufBitmap(g_bitmap->GetWidth(), g_bitmap->GetHeight(), PixelFormat32bppPARGB);
+		Bitmap bufBitmap(g_width, g_height, PixelFormat32bppPARGB);
 		Graphics buffer(&bufBitmap); // graphics object for the buffer
-		Rect rect(0, 0, g_bitmap->GetWidth(), g_bitmap->GetHeight());
+		Rect rect(0, 0, g_width, g_height);
 		buffer.DrawImage(g_bitmap, rect);
 		g_myGame->render(buffer, g_elapsed);
 		graphics.DrawImage(&bufBitmap, 0, 0);
@@ -84,7 +88,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 		g_myGame = new Game(hWnd);
-		loadBackgroundImage("images\\14960493_5532920.bmp");
+
+		loadBackgroundImage("images\\" + IMAGE_FILE_NAME +".bmp");
 		if (g_bitmap->GetLastStatus() != Ok)
 		{
 			MessageBoxA(hWnd, "Unable to load file!", "Error", MB_OK);
@@ -97,9 +102,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			getWindowBorderDimensions(hWnd, bW, bH);
 			getDisplayResolution(wX, wY);
 			// Verify the image is smaller than screen or SetWindowPos() will fail. Display scaling affects the reported resolution
-			if ((UINT)wX >= g_bitmap->GetWidth() + bW && (UINT)wY >= g_bitmap->GetHeight() + bH)
+			if ((UINT)wX >= g_width + bW && (UINT)wY >= g_height + bH)
 			{
-				SetWindowPos(hWnd, HWND_TOP, (wX - (g_bitmap->GetWidth() + bW)) / 2, (wY - (g_bitmap->GetHeight() + bH)) / 2, g_bitmap->GetWidth() + bW, g_bitmap->GetHeight() + bH, SWP_SHOWWINDOW);
+				SetWindowPos(hWnd, HWND_TOP, (wX - (g_width + bW)) / 2, (wY - (g_height + bH)) / 2, g_width + bW, g_height + bH, SWP_SHOWWINDOW);
 			}
 		}
 		break;

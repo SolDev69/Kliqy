@@ -16,8 +16,9 @@ private:
 	double m_Angle;
 	unsigned int m_AliveTime;
 	double m_scale;
+	int m_vert;
 public:
-	Obstacle(double x, double y, float rad, HWND hWnd);
+	Obstacle(double x, double y, float rad, HWND hWnd, int direction = 0);
 	void update(double speed);
 	void draw(Gdiplus::Graphics& graphics);
 	void move(double x, double y);

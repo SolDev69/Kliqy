@@ -70,6 +70,7 @@ void Player::handleInput(Game* currGame)
 		currGame->setGameStarted(true);
 		currGame->getObstacles().clear();
 		currGame->resetLocalTime();
+		currGame->setFrequency(1000);
 	}
 
 	if (currGame->isGameRunning())

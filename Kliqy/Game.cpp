@@ -57,6 +57,11 @@ void Game::resetLocalTime()
 {
 	m_localTime = 0;
 }
+void Game::setFrequency(int a)
+{
+	m_frequency = a;
+	m_startingFreq = a;
+}
 void Game::update(unsigned long elapsed)
 {
 	m_frequency -= (int)elapsed;
@@ -65,7 +70,8 @@ void Game::update(unsigned long elapsed)
 	{
 		m_StringSpawn->X = IMAGE_WIDTH / 2.0;
 		m_localTime += elapsed;
-		std::string newString = std::to_string(m_localTime / 1000);
+		int time = m_localTime / 1000;
+		std::string newString = std::to_string(time);
 		m_string.assign(newString.begin(), newString.end());
 
 		if (m_frequency < 0)
@@ -73,11 +79,20 @@ void Game::update(unsigned long elapsed)
 			int random = rand() % 2;
 			const int c_debugLimit = 0;
 			if (c_debugLimit == 0 ? true : (c_debugLimit > m_Obstacles.size()))
-				m_Obstacles.push_back(new Obstacle((random == 0) ? IMAGE_WIDTH + 10 : - 10, rand() % IMAGE_HEIGHT, 10.0f, *g_hWnd));
+				if (rand() % 2 == 0)
+				{
+					m_Obstacles.push_back(new Obstacle((random == 0 || time <= 30) ? IMAGE_WIDTH + 10 : -10, rand() % IMAGE_HEIGHT, 10.0f, *g_hWnd));
+				}
+				else
+				{
+					if (time >= 80)
+						m_Obstacles.push_back(new Obstacle(rand() % IMAGE_WIDTH, (random == 0) ? IMAGE_HEIGHT + 10 : -10, 10.0f, *g_hWnd, random == 0 ? 1 : -1));
+				}
+
 			m_frequency = --m_startingFreq;
 		}
 
-		if (m_startingFreq == 10)
+		if (m_startingFreq < 500)
 		{
 			m_isRunning = false;
 			m_gameCompleted = true;
