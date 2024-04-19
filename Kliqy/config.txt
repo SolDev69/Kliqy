@@ -1,0 +1,5 @@
+galaxy
+
+// Config settings:
+// "galaxy" - normal
+// "galaxy_easy" - easy
