@@ -11,7 +11,7 @@ const std::string readImageFileNameFromConfig(const std::string& configFileName)
     }
     else {
         // Default image name if config file is not found or cannot be opened
-        imageName = "ERROR: CONFIG FILE NOT FOUND";
+        throw "Error: no config!";
     }
 
     return imageName;
