@@ -8,7 +8,6 @@ class Player
 	double m_x;
 	double m_y;
 	int m_width, m_height;
-	double m_JumpSpeed;
 	float m_Angle;
 	double m_Radius;
 public:

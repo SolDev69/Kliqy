@@ -1,17 +1,13 @@
 #include "Player.h"
 #include "Image.h"
 
-double g_JumpHeight;
-
 Player::Player(HWND hWnd, int width, int height) :
 	m_x(0.0),
 	m_y(0.0),
-	m_JumpSpeed(5.0),
 	m_Angle(0.0),
 	m_width(width),
 	m_height(height)
 {
-	g_JumpHeight = m_JumpSpeed;
 	m_object = new MyPlayer(0, 0, width, height);
 	m_Radius = sqrt(pow(m_object->base()/2, 2) + pow(m_object->height()/2, 2)) / 2.0;
 }
@@ -19,11 +15,6 @@ Player::Player(HWND hWnd, int width, int height) :
 double Player::getRadius()
 {
 	return m_Radius;
-}
-
-double Player::getJumpSpeed()
-{
-	return m_JumpSpeed;
 }
 
 Player::~Player()
