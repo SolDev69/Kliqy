@@ -58,17 +58,24 @@ void loadBackgroundImage(string fileName)
 const unsigned int g_width = IMAGE_WIDTH;
 const unsigned int g_height = IMAGE_HEIGHT;
 
-void drawImages(HDC hdc, int g_elapsed)
+void drawImages(HDC hdc, int elapsed, HWND& hWnd, int& bW, int& bH, int& wX, int& wY)
 {
 	if (g_bitmap)
 	{
+
 		Graphics graphics(hdc);
 		Bitmap bufBitmap(g_width, g_height, PixelFormat32bppPARGB);
 		Graphics buffer(&bufBitmap); // graphics object for the buffer
 		Rect rect(0, 0, g_width, g_height);
 		buffer.DrawImage(g_bitmap, rect);
-		g_myGame->render(buffer, g_elapsed);
+		g_myGame->render(buffer, elapsed);
 		graphics.DrawImage(&bufBitmap, 0, 0);
+
+		// Verify the image is smaller than screen or SetWindowPos() will fail. Display scaling affects the reported resolution
+		if ((UINT)wX >= g_width + bW && (UINT)wY >= g_height + bH)
+		{
+			SetWindowPos(hWnd, HWND_TOP, (wX - (g_width + bW)) / 2, (wY - (g_height + bH)) / 2, g_width + bW, g_height + bH, SWP_SHOWWINDOW);
+		}
 	}
 }
 
@@ -104,6 +111,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int bW, bH, wX, wY;
 			getWindowBorderDimensions(hWnd, bW, bH);
 			getDisplayResolution(wX, wY);
+
 			// Verify the image is smaller than screen or SetWindowPos() will fail. Display scaling affects the reported resolution
 			if ((UINT)wX >= g_width + bW && (UINT)wY >= g_height + bH)
 			{
@@ -116,14 +124,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_RBUTTONDOWN:
 
-		break;
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-			PostQuitMessage(0);
-			break;
-		}
 		break;
 
 	case WM_DESTROY:
@@ -240,7 +240,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 			lastTick = curTick;
 			g_myGame->update(g_elapsed);
 			// Check collisions
-			drawImages(hdc, g_elapsed);
+			int bW, bH, wX, wY;
+			getWindowBorderDimensions(windowHandle, bW, bH);
+			getDisplayResolution(wX, wY);
+
+			drawImages(hdc, g_elapsed, windowHandle, bW, bH, wX, wY);
 		}
 	}
 

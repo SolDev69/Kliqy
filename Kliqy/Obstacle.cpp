@@ -16,13 +16,16 @@ Obstacle::Obstacle(double x, double y, float rad, HWND hWnd, int direction) :
 }
 
 
-void Obstacle::update(double speed)
+void Obstacle::update(double speed, Game* g)
 {
-	if (m_vert == 0)
-		move(-speed * m_direction, 0);
-	else
-		move(0, -speed * m_vert);
-	this->m_AliveTime++;
+	if (g->isGameRunning())
+	{
+		if (m_vert == 0)
+			move(-speed * m_direction, 0);
+		else
+			move(0, -speed * m_vert);
+		this->m_AliveTime++;
+	}
 }
 void Obstacle::draw(Graphics& graphics)
 {

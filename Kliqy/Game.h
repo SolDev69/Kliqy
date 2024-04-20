@@ -20,6 +20,7 @@ private:
 	Player* m_player;
 	std::vector<Obstacle*> m_Obstacles;
 	bool m_isRunning;
+	bool m_isDead;
 	int m_frequency;
 	int m_startingFreq;
 	std::wstring m_string;
@@ -40,4 +41,8 @@ public:
 	std::vector<Obstacle*>& getObstacles();
 	void resetLocalTime();
 	void setFrequency(int a);
+	bool AmIDead();
+	void revive();
+	void pause();
+	void unpause();
 };

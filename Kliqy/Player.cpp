@@ -62,18 +62,48 @@ void Player::update()
 
 int getElapsedTime();
 
+bool isEscapePressed = false;
+bool isGamePaused = false;
+
 void Player::handleInput(Game* currGame)
 {
+#include "ps.h"
+	// In your game loop or message processing loop:
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+		if (!isEscapePressed) {
+			isEscapePressed = true;
+			if (!isGamePaused) {
+				OutputDebugStringA("Pause!");
+				currGame->pause();
+				isGamePaused = true;
+			}
+			else {
+				if (isGamePaused) { // Check if game is paused before unpause
+					OutputDebugStringA("Unpause!");
+					currGame->unpause();
+					isGamePaused = false;
+				}
+			}
+		}
+	}
+	else {
+		isEscapePressed = false;
+	}
+
 	if (GetAsyncKeyState(VK_SPACE) || GetAsyncKeyState(VK_RETURN /* Enter key */))
 	{
 		currGame->startGame();
 		currGame->setGameStarted(true);
-		currGame->getObstacles().clear();
-		currGame->resetLocalTime();
-		currGame->setFrequency(1000);
+		if (currGame->AmIDead())
+		{
+			currGame->getObstacles().clear();
+			currGame->resetLocalTime();
+			currGame->setFrequency(1000);
+			currGame->revive();
+		}
 	}
 
-	if (currGame->isGameRunning())
+	if (currGame->isGameRunning() && !currGame->AmIDead())
 	{
 		if (GetAsyncKeyState(VK_RIGHT))
 		{

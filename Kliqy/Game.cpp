@@ -6,6 +6,7 @@
 
 Game::Game(HWND& hWnd) :
 	m_isRunning(false),
+	m_isDead(m_isRunning),
 	m_frequency(1000),
 	m_startingFreq(m_frequency),
 	m_gameStarted(false),
@@ -62,11 +63,31 @@ void Game::setFrequency(int a)
 	m_frequency = a;
 	m_startingFreq = a;
 }
+bool Game::AmIDead()
+{
+	return m_isDead;
+}
+
+void Game::revive()
+{
+	m_isDead = false;
+}
+
+void Game::pause()
+{
+	this->m_isRunning = false;
+}
+
+void Game::unpause()
+{
+	this->m_isRunning = true;
+}
+
 void Game::update(unsigned long elapsed)
 {
 	m_frequency -= (int)elapsed;
 	m_player->handleInput(this);
-	if (m_isRunning)
+ 	if (!m_isDead && m_isRunning)
 	{
 		m_StringSpawn->X = IMAGE_WIDTH / 2.0;
 		m_localTime += elapsed;
@@ -105,11 +126,12 @@ void Game::update(unsigned long elapsed)
 			{
 				// Collision
 				m_isRunning = false;
+				m_isDead = true;
 			}
-			o->update(5.0);
+			o->update(5.0, this);
 		}
 	}
-	else
+	else if (m_isDead)
 	{
 		if (m_gameStarted)
 		{

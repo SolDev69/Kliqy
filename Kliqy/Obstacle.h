@@ -5,6 +5,8 @@
 #include "MyTriangle.h"
 #include <vector>
 
+class Game;
+
 class Obstacle
 {
 private:
@@ -19,7 +21,7 @@ private:
 	int m_vert;
 public:
 	Obstacle(double x, double y, float rad, HWND hWnd, int direction = 0);
-	void update(double speed);
+	void update(double speed, Game* g);
 	void draw(Gdiplus::Graphics& graphics);
 	void move(double x, double y);
 	void setPos(double x, double y);
