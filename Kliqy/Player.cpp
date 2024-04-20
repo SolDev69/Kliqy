@@ -67,7 +67,6 @@ bool isGamePaused = false;
 
 void Player::handleInput(Game* currGame)
 {
-#include "ps.h"
 	// In your game loop or message processing loop:
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
 		if (!isEscapePressed) {
