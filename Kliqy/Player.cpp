@@ -73,13 +73,11 @@ void Player::handleInput(Game* currGame)
 		if (!isEscapePressed) {
 			isEscapePressed = true;
 			if (!isGamePaused) {
-				OutputDebugStringA("Pause!");
 				currGame->pause();
 				isGamePaused = true;
 			}
 			else {
 				if (isGamePaused) { // Check if game is paused before unpause
-					OutputDebugStringA("Unpause!");
 					currGame->unpause();
 					isGamePaused = false;
 				}
