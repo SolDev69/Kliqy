@@ -28,6 +28,7 @@ private:
 	bool m_gameCompleted;
 	PointF* m_StringSpawn;
 public:
+	HWND* g_hWnd;
 	Game(HWND& hWnd);
 	bool isGameRunning();
 	void startGame();

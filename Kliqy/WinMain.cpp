@@ -15,7 +15,6 @@
 using namespace Gdiplus;
 using namespace std;
 
-
 // Declare globals 
 Bitmap* g_bitmap;
 Game* g_myGame;
@@ -89,12 +88,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE:
 		g_myGame = new Game(hWnd);
 
-		loadBackgroundImage("images\\" + IMAGE_FILE_NAME +".bmp");
+		loadBackgroundImage("images\\" + readImageFileNameFromConfig("config.txt", g_myGame) +".bmp");
 		if (g_bitmap->GetLastStatus() != Ok)
 		{
-			MessageBoxA(hWnd, "Unable to load file!", "Error", MB_OK);
+			MessageBoxA(hWnd, "Unable to load image!", "Error", MB_OK);
 			delete g_bitmap;// if the file fails to load, g_bitmap still has data
+			delete g_myGame;
 			g_bitmap = nullptr;
+			g_myGame = nullptr;
+			
+			PostQuitMessage(404);
 		}
 		else
 		{

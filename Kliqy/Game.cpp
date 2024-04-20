@@ -3,7 +3,6 @@
 #include "Image.h"
 #include "Constants.h"
 
-HWND* g_hWnd = new HWND;
 
 Game::Game(HWND& hWnd) :
 	m_isRunning(false),
@@ -13,6 +12,7 @@ Game::Game(HWND& hWnd) :
 	m_gameCompleted(false),
 	m_localTime(0)
 {
+	g_hWnd = new HWND;
 	std::string baseString = c_GameName + "\nPress space / enter to start";
 	m_string.assign(baseString.begin(), baseString.end());
 	*g_hWnd = hWnd;
