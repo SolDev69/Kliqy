@@ -11,7 +11,8 @@ Game::Game(HWND& hWnd) :
 	m_startingFreq(m_frequency),
 	m_gameStarted(false),
 	m_gameCompleted(false),
-	m_localTime(0)
+	m_localTime(0),
+	m_highScore(0)
 {
 	g_hWnd = new HWND;
 	std::string baseString = c_GameName + "\nPress space / enter to start";
@@ -143,7 +144,16 @@ void Game::update(unsigned long elapsed)
 			}
 			else
 			{
-				endString = "Game over!\nScore: " + std::to_string(m_localTime) + "\nPress enter or space to restart!";
+				endString = "Game over!\nScore: " + std::to_string(m_localTime) +
+					+ "\n "
+					"\nPress enter or space to restart!";
+				if (m_localTime != 0)
+				{
+					if (m_localTime > m_highScore)
+					{
+						m_highScore = m_localTime;
+					}
+				}
 			}
 			m_string.assign(endString.begin(), endString.end());
 		}

@@ -28,6 +28,7 @@ private:
 	bool m_gameStarted;
 	bool m_gameCompleted;
 	PointF* m_StringSpawn;
+	long long m_highScore;
 public:
 	HWND* g_hWnd;
 	Game(HWND& hWnd);

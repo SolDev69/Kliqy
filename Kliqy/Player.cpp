@@ -80,7 +80,8 @@ void Player::handleInput(Game* currGame)
 
 	if (GetAsyncKeyState(VK_SPACE) || GetAsyncKeyState(VK_RETURN /* Enter key */))
 	{
-		currGame->startGame();
+		if (!currGame->isGameRunning())
+			currGame->startGame();
 		currGame->setGameStarted(true);
 		if (currGame->AmIDead())
 		{
