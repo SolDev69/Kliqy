@@ -129,7 +129,7 @@ void Game::update(unsigned long elapsed)
 				m_isRunning = false;
 				m_isDead = true;
 			}
-			o->update(5.0, this);
+			o->update(15.0, this);
 		}
 	}
 	else if (m_isDead)
@@ -145,7 +145,7 @@ void Game::update(unsigned long elapsed)
 			else
 			{
 				endString = "Game over!\nScore: " + std::to_string(m_localTime) +
-					+ "\n "
+					+ "\nHigh Score: " + std::to_string(m_highScore) +
 					"\nPress enter or space to restart!";
 				if (m_localTime != 0)
 				{
