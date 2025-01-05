@@ -1,6 +1,5 @@
 #pragma once
 
-#pragma once
 #include "Shape.h"
 #include "MyTriangle.h"
 #include <vector>
